@@ -36,7 +36,6 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    // Rest omitted for brevity
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
@@ -60,5 +59,36 @@ class User extends Authenticatable implements JWTSubject
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
+    }
+
+
+    public function roles(){
+
+        return $this->belongsToMany('App\Role','role_user','user_id','role_id')->withPivot('id');;
+
+    }
+    public function hasanyRoles($roles){
+
+        if($this->roles()->whereIn('name',$roles)->first()){
+            return true;
+        }
+        return false;
+    }
+    public function hasRole($role){
+
+        if($this->roles()->where('name',$role)->first()){
+            return true;
+        }
+        return false;
+    }
+    public function user_type(){
+        return $this->belongsTo(UserType::class);
+    }
+    public function likes(){
+        return $this->hasMany('App\NewsPostLike');
+    }
+
+    public function user_log() {
+        return $this->hasMany(User_log::class, 'user_id', 'id');
     }
 }
