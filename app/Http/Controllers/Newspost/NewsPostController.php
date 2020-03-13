@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 class NewsPostController extends Controller
 {
-    /* public function __construct()
+    public function __construct()
     {
         $this->middleware('auth:api');
-    } */
+    }
     public function show(){
         try{
         $newsposts = NewsPost::all();
@@ -33,10 +33,12 @@ class NewsPostController extends Controller
         $extension=$image_file->getClientOriginalExtension();
         $filename=time().'.'.$extension;
         $image_file->move('uploads',$filename); 
-        $image_url = 'http://127.0.0.1:8000/uploads/' .$filename;
+        $image_url = 'http://7ea57efc.ngrok.io/uploads/' .$filename;
         }else{
             //return response()->json(['message' => 'Newspost not found']);
-            $image_url = 'http://127.0.0.1:8000/uploads/noimage.jpg';
+            http://95104913.ngrok.io/uploads
+            $image_url = 'http://ba5a547d.ngrok.io/uploads/noimage.jpg';
+            //$image_url = 'http://127.0.0.1:8000/uploads/noimage.jpg';
             //$newspost->image='noimage.jpg';
         }
         $newspost->title=$request->input('title'); 
@@ -63,7 +65,7 @@ class NewsPostController extends Controller
 
             if($old_news_feed instanceof NewsPost) {
                 $image_url = isset($credential['image_url'])? $credential['image_url']:
-                $image_url = 'http://127.0.0.1:8000/uploads/noimage.jpg';
+                $image_url = 'http://7ea57efc.ngrok.io/uploads/noimage.jpg';
                 $image_file = request()->file('image_file');
                 if ($image_file) {
                     $file_extension = strtolower($image_file->getClientOriginalExtension());
@@ -71,9 +73,9 @@ class NewsPostController extends Controller
                         $posted_file_name = str_random(30) . '.' . $file_extension;
                         $destinationPath = public_path('/uploads');
                         $image_file->move($destinationPath, $posted_file_name);
-                        $image_url = 'http://127.0.0.1:8000/uploads/' . $posted_file_name;
+                        $image_url = 'http://7ea57efc.ngrok.io/uploads/' . $posted_file_name;
                     } else {
-                        $image_url = 'http://127.0.0.1:8000/noimage.jpg/' . $posted_file_name;
+                        $image_url = 'http://7ea57efc.ngrok.io/uploads/noimage.jpg' . $posted_file_name;
                     }
                 }
                 $old_news_feed->title = isset($credential['title'])? $credential['title']:  $old_news_feed->title;

@@ -37,10 +37,10 @@ class AuthController extends Controller
             'password' => 'required|max:255',
             
         ];
-        $validator = Validator::make($request->all(), $rules);
+        /* $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
                 return response()->json(['status'=>false, 'error'=>'validation error'],500);
-            }
+            } */
 
         if (! $token = auth()->attempt($data)) {
             return response()->json(['error' => 'Email or Password doesn\'t exist'], 401);
@@ -125,9 +125,6 @@ class AuthController extends Controller
         ]);
         
     }
-    public function getcurrentuser(){
-        $user = auth()->user();
-        return response()->json($user); 
-    }
+    
 
 }

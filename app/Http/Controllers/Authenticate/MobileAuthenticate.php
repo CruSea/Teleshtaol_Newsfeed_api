@@ -82,7 +82,14 @@ class MobileAuthenticate extends Controller
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        try{
+            $this_user = auth()->user();
+            if($this_user instanceof User) {
+                return response()->json(['status'=> true, 'message'=> 'profile info fetched', 'users'=> $this_user],200);
+            }
+        }catch (\Exception $exception) {
+            return response()->json(['status'=>false, 'message'=> 'Whoops! something went wrong', 'error'=>$exception->getMessage()],500);
+        }
     }
 
     /**

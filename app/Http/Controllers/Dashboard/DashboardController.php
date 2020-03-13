@@ -93,4 +93,24 @@ class DashboardController extends Controller
             'system_user' => $system_users
         ]);
     }
+    public function getMembersUsageData($date_ref){
+        try{
+            $cur_time = Carbon::now();
+            $cur_time->subDay($date_ref);
+            $cur_time->subDay(21);
+            $messageData = array();
+            $messageData['start_date'] = $cur_time->format('M/d/Y');
+            $messageData['users_count'] = array();
+            $messageData['member_date'] = array();
+            for($i = 21; $i >= 0; $i--) {
+                $users_count = User::whereDate('created_at', '=', $cur_time->toDateString())->select('user_id')->get()->count();
+                $messageData['users_count'][] = $users_count;
+                $messageData['member_date'][] = $cur_time->format('M d');
+                $cur_time->addDay(1);
+            }
+            return response()->json(['status'=>true, 'users_member_data'=> $messageData],200);
+        }catch (\Exception $exception) {
+            return response()->json(['status'=>false, 'error'=> $exception->getMessage()],500);
+        }
+    }
 }
