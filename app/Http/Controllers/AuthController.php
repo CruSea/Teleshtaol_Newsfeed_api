@@ -37,10 +37,10 @@ class AuthController extends Controller
             'password' => 'required|max:255',
             
         ];
-        /* $validator = Validator::make($request->all(), $rules);
+        $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
                 return response()->json(['status'=>false, 'error'=>'validation error'],500);
-            } */
+            }
 
         if (! $token = auth()->attempt($data)) {
             return response()->json(['error' => 'Email or Password doesn\'t exist'], 401);
@@ -61,7 +61,7 @@ class AuthController extends Controller
             $error = $validator->messages();
             return response()->json([ 'error'=>$error],500);
         }
-        $role=Role::select('id')->where('name','viewer')->first();
+        $role=Role::select('id')->where('name','admin')->first();
         $user=User::create($request->all());
         $user->user_type_id = 1;
         $user->roles()->attach($role);
